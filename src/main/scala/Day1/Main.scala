@@ -4,8 +4,23 @@ import scala.collection.mutable.ArrayBuffer
 import scala.math.sqrt
 import scala.math.pow
 import scala.io.StdIn.readInt
+import scala.util.Random
 
 object Main extends App {
+
+  def numberSuffixes (input: Integer): String = {
+    var str = ""
+    if (input % 10 == 1) {
+      str = "st"
+    } else if (input % 10 == 2) {
+      str = "nd"
+    } else if (input % 10 == 3) {
+      str = "rd"
+    } else {
+      str = "th"
+    }
+    str
+  }
 
   def booleanPrimes(input: Integer): ArrayBuffer[Boolean] = {
     val squareRootInputDouble: Double = sqrt(input.toDouble)
@@ -43,7 +58,7 @@ object Main extends App {
   var wantMore: Boolean = true
 
   var welcome = "Welcome"
-  4
+
   while(wantMore) {
 
     println(s"$welcome! If you are here you must like prime numbers. There are things you might want to do!\nChoose one of the following by writing the associated number:")
@@ -51,28 +66,18 @@ object Main extends App {
     println("(2) Determine if a specific number is prime")
     println("(3) Number of primes less than or equal to a specific number")
     println("(4) List the primes up to a certain number")
+    println("(5) Generate a random prime number")
     //    println("(5) Actually, I don't like primes")
     welcome = "Welcome Back"
 
-    var chooseOption = readInt()
-    var input: Integer = 0
+    val chooseOption = readInt()
     println("Give me a number")
-    input = readInt()
+    val input = readInt()
 
     if (chooseOption == 1) {
-      var squareInput = pow(input.toDouble,2.00).toInt
-      val arrayOfPrimes = listOfPrimes(squareInput)
 
-      var str = ""
-      if (input % 10 == 1) {
-        str = "st"
-      } else if (input % 10 == 2) {
-        str = "nd"
-      } else if (input % 10 == 3) {
-        str = "rd"
-      } else {
-        str = "th"
-      }
+      val squareInput = pow(input.toDouble,2.00).toInt
+      val arrayOfPrimes = listOfPrimes(squareInput)
 
       var result = 0
       if (input != 1) {
@@ -81,35 +86,54 @@ object Main extends App {
         result = 2
       }
 
+      val str = numberSuffixes(input)
+
       println(s"The $input$str prime number is $result")
+
     } else if (chooseOption == 2) {
+
       val listOfPrimes = booleanPrimes(input)
 
       var response = "is not"
-
       if (listOfPrimes(input)) {
         response = "is"
       }
 
       println(s"The number $input $response a prime number")
-    } else if (chooseOption == 3) {
-      val numberOfPrimes = listOfPrimes(input).size
 
+    } else if (chooseOption == 3) {
+
+      val numberOfPrimes = listOfPrimes(input).size
       println(s"There are $numberOfPrimes number of prime numbers less than or equal to $input")
+
     } else if (chooseOption == 4) {
+
       for (prime <- listOfPrimes(input)) println(prime)
+
+    } else if (chooseOption == 5) {
+
+      val arrayOfPrimes = listOfPrimes(20000000)
+      val rnd = new Random()
+      val randomNum = {
+        (rnd.nextFloat() * arrayOfPrimes.size).toInt
+      }
+
+      println(arrayOfPrimes(randomNum))
+
     } else {
+
       wantMore = false
+
     }
 
 
     Thread.sleep(2000)
 
 
-    var placeholder = true
-    while (placeholder) {
+    var placeholder: Boolean = true
+    while (wantMore && placeholder) {
       println("Do you want more primes? Type y or n")
-      var wantMoreString = scala.io.StdIn.readLine()
+      val wantMoreString = scala.io.StdIn.readLine()
       if (wantMoreString.toLowerCase == "no" || wantMoreString.toLowerCase == "n"){
         wantMore = false
         placeholder = false
