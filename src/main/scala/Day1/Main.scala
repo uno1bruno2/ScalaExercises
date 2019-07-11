@@ -6,7 +6,7 @@ import scala.math.pow
 import scala.io.StdIn.readInt
 import scala.util.Random
 
-object Main extends App {
+object Main extends App{
 
   def numberSuffixes (input: Integer): String = {
     if (input % 10 == 1) {
@@ -98,14 +98,14 @@ object Main extends App {
     for (prime <- listOfPrimes(input)) println(prime)
   }
 
-  def optionSix(input: Int): Unit = {
+  def optionSix(input: Int): Int = {
     val arrayOfPrimes = listOfPrimes(input)
     val rnd = new Random()
     val randomNum = {
       (rnd.nextFloat() * arrayOfPrimes.size).toInt
     }
 
-    println(arrayOfPrimes(randomNum))
+    arrayOfPrimes(randomNum)
   }
 
   def optionFive(input: Int): Unit = {
@@ -119,6 +119,7 @@ object Main extends App {
   }
 
   def optionChoices(chooseOption: Int, input: Int): Unit = {
+    println("")
     if (chooseOption == 1) {
       optionOne(input)
     } else if (chooseOption == 2) {
@@ -130,8 +131,17 @@ object Main extends App {
     } else if (chooseOption == 5) {
       optionFive(input)
     } else if (chooseOption == 6) {
-      optionSix(input)
+      println("How many random primes do you want?")
+      val numRndPrimes = readInt()
+      println("")
+      for (i <- 1 to numRndPrimes) {
+        val rndPrime = optionSix(input)
+        if (rndPrime <= 200)  {
+          println(rndPrime)
+        }
+      }
     }
+    println("")
     Thread.sleep(2000)
   }
 
@@ -139,9 +149,10 @@ object Main extends App {
     println("Do you want more primes? Type y or n")
     val wantMoreString = scala.io.StdIn.readLine()
     if (wantMoreString.toLowerCase == "no" || wantMoreString.toLowerCase == "n"){
+      wantMore = false
       false
     } else if (wantMoreString.toLowerCase == "yes" || wantMoreString.toLowerCase == "y"){
-      true
+      false
     } else {
       println("Invalid input!")
       Thread.sleep(1000)
@@ -161,13 +172,15 @@ object Main extends App {
     if (chooseOption == -1) {
       wantMore == false
     } else {
+      println("")
       println("Give me a number")
       val input = readInt()
       optionChoices(chooseOption,input)
     }
 
-    while (wantMore) {
-      wantMore = wantMoreMethod()
+    var placeholder = true
+    while (wantMore && placeholder) {
+      placeholder = wantMoreMethod()
     }
 
   }
