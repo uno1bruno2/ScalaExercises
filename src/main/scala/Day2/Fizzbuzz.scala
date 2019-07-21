@@ -36,7 +36,6 @@ object Fizzbuzz extends App{
     } else {
       println("That's it!")
     }
-
   }
 
 //  for (i <- 1 to 100) println(fizzbuzzMatch(i))
